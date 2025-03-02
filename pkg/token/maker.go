@@ -1,15 +1,18 @@
 package token
 
-import "time"
+import (
+	"time"
 
-type Payload struct {
-	ID        string    `json:"id"`
-	Username  string    `json:"username"`
-	IssuedAt  time.Time `json:"issued_at"`
-	ExpiresAt time.Time `json:"expires_at"`
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/jackc/pgx/v5/pgtype"
+)
+
+type Claims struct {
+	UserID pgtype.UUID `json:"user_id"`
+	jwt.RegisteredClaims
 }
 
 type Maker interface {
-	CreateToken(username string, duration time.Duration) (string, error)
-	VerifyToken(token string) (*Payload, error)
+	CreateToken(userID pgtype.UUID, duration time.Duration) (string, error)
+	VerifyToken(token string) (*Claims, error)
 }
