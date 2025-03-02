@@ -2,8 +2,9 @@ services:
   db: 
     image: postgres:16.3-bullseye
     container_name: postgres
+    env_file: .env
     ports:
-      - 5030:5234
+      - 5030:5432
     restart: always
     volumes:
       - image-service-data:/var/lib/postgresql/data
