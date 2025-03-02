@@ -8,8 +8,16 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+type Image struct {
+	ID         pgtype.UUID        `json:"id"`
+	Name       string             `json:"name"`
+	UserID     int64              `json:"user_id"`
+	Url        string             `json:"url"`
+	UploadedAt pgtype.Timestamptz `json:"uploaded_at"`
+}
+
 type User struct {
-	ID           int64              `json:"id"`
+	ID           pgtype.UUID        `json:"id"`
 	Email        string             `json:"email"`
 	PasswordHash string             `json:"password_hash"`
 	CreatedAt    pgtype.Timestamptz `json:"created_at"`
