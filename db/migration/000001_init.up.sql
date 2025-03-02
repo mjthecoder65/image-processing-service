@@ -9,7 +9,7 @@ CREATE TABLE users (
 CREATE TABLE images (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name VARCHAR(255) NOT NULL,
-    user_id BIGINT NOT NULL,
+    user_id UUID NOT NULL,
     url VARCHAR(255) NOT NULL,
     uploaded_at TIMESTAMPTZ DEFAULT NOW(),
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
