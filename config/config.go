@@ -30,7 +30,7 @@ func LoadConfig() (*Config, error) {
 		StorageRegion: getEnvWithDefaultValue("STORAGE_REGION", "ap-northeast-2"),
 		StorageKey:    getEnvWithDefaultValue("STORAGE_KEY", ""),
 		StorageSecret: getEnvWithDefaultValue("STORAGE_SECRET", ""),
-		DatabaseURL:   getEnvWithDefaultValue("DATABASE_URL", "postgres://localhost:5234"),
+		DatabaseURL:   getEnvWithDefaultValue("DATABASE_URL", "postgres://localhost:5432"),
 		BucketName:    getEnvRequired("BUCKET_NAME"),
 	}, nil
 }
