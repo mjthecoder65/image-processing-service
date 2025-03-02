@@ -12,7 +12,12 @@ import (
 )
 
 const createImage = `-- name: CreateImage :one
-INSERT INTO images (name, user_id, url) VALUES ($1, $2, $3) RETURNING id, name, user_id, url, uploaded_at
+INSERT INTO
+	images (name, user_id, url)
+VALUES
+	($1, $2, $3)
+RETURNING
+	id, name, user_id, url, uploaded_at
 `
 
 type CreateImageParams struct {
@@ -35,7 +40,12 @@ func (q *Queries) CreateImage(ctx context.Context, arg CreateImageParams) (Image
 }
 
 const getImage = `-- name: GetImage :one
-SELECT id, name, user_id, url, uploaded_at FROM images WHERE id = $1
+SELECT
+	id, name, user_id, url, uploaded_at
+FROM
+	images
+WHERE
+	id = $1
 `
 
 func (q *Queries) GetImage(ctx context.Context, id pgtype.UUID) (Image, error) {
@@ -53,12 +63,15 @@ func (q *Queries) GetImage(ctx context.Context, id pgtype.UUID) (Image, error) {
 
 const getUserImages = `-- name: GetUserImages :many
 SELECT
-    id, name, user_id, url, uploaded_at
-FROM 
-    images
-WHERE 
-    user_id = $1
-OFFSET $2 LIMIT $3
+	id, name, user_id, url, uploaded_at
+FROM
+	images
+WHERE
+	user_id = $1
+OFFSET
+	$2
+LIMIT
+	$3
 `
 
 type GetUserImagesParams struct {
