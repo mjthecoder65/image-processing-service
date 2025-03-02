@@ -100,7 +100,7 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 
-	token, err := server.maker.CreateToken(user.ID, 2*time.Minute) // TODO: Move token expiration duration to the configuration.
+	token, err := server.maker.CreateToken(user.ID, 60*time.Minute) // TODO: Move token expiration duration to the configuration.
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
