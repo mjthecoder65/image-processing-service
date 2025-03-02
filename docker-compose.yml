@@ -3,7 +3,7 @@ services:
     image: postgres:16.3-bullseye
     container_name: postgres
     ports:
-      - 5234:5234
+      - 5030:5234
     restart: always
     volumes:
       - image-service-data:/var/lib/postgresql/data
