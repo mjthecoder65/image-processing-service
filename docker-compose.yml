@@ -1,15 +1,4 @@
 services:
-  app:
-    build: .
-    container_name: image-service
-    restart: always
-    ports:
-      - 8080:8080
-    volumes:
-      - ./:/app
-    networks:
-      - image-service-net
-    
   db: 
     image: postgres:16.3-bullseye
     container_name: postgres
