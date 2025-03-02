@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -13,6 +14,7 @@ type Config struct {
 	StorageKey    string
 	StorageSecret string
 	DatabaseURL   string
+	BucketName    string
 }
 
 func LoadConfig() (*Config, error) {
@@ -23,18 +25,28 @@ func LoadConfig() (*Config, error) {
 	}
 
 	return &Config{
-		ServerPort:    getEnv("SERVER_PORT", ":8080"),
-		JWTSecret:     getEnv("JWT_SECRET", "Bk1Rqg1Vl2oktA1pTpIbzbZAeWIbus"),
-		StorageRegion: getEnv("STORAGE_REGION", "ap-northeast-2"),
-		StorageKey:    getEnv("STORAGE_KEY", ""),
-		StorageSecret: getEnv("STORAGE_SECRET", ""),
-		DatabaseURL:   getEnv("DATABASE_URL", "postgres://localhost:5234"),
+		ServerPort:    getEnvWithDefaultValue("SERVER_PORT", ":8080"),
+		JWTSecret:     getEnvWithDefaultValue("JWT_SECRET", "Bk1Rqg1Vl2oktA1pTpIbzbZAeWIbus"),
+		StorageRegion: getEnvWithDefaultValue("STORAGE_REGION", "ap-northeast-2"),
+		StorageKey:    getEnvWithDefaultValue("STORAGE_KEY", ""),
+		StorageSecret: getEnvWithDefaultValue("STORAGE_SECRET", ""),
+		DatabaseURL:   getEnvWithDefaultValue("DATABASE_URL", "postgres://localhost:5234"),
+		BucketName:    getEnvRequired("BUCKET_NAME"),
 	}, nil
 }
 
-func getEnv(key, defaultValue string) string {
+func getEnvWithDefaultValue(key, defaultValue string) string {
 	if value, exists := os.LookupEnv(key); exists {
 		return value
 	}
 	return defaultValue
+}
+
+func getEnvRequired(key string) string {
+	if value, exists := os.LookupEnv(key); !exists {
+		message := fmt.Sprintf("failed to load value for key: %v", key)
+		panic(message)
+	} else {
+		return value
+	}
 }
