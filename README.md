@@ -2,6 +2,8 @@
 
 This project is a backend service for image processing, similar to Cloudinary. It allows users to upload images, apply transformations, and retrieve images in different formats. The system includes user authentication, image management, and efficient retrieval mechanisms.
 
+This project was implemented based on the roadmap from [roadmap.sh](https://roadmap.sh/projects/image-processing-service).
+
 ## Features
 
 ### User Authentication
