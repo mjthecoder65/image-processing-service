@@ -31,13 +31,13 @@ This project is a backend service for image processing, similar to Cloudinary. I
 
 ## Tech Stack
 
-- **Go**: Backend implementation
-- **Gin**: Web framework
-- **PostgreSQL**: Database
-- **SQLC**: Database query management
-- **AWS S3**: Cloud storage for images
-- **Docker & docker-compose**: Containerization
-- **Imaging Library**: Image processing
+- **Language**: Go
+- **Framework**: Gin (HTTP server)
+- **Database**: PostgreSQL with SQLC
+- **Storage**: AWS S3
+- **Image Processing**: `github.com/disintegration/imaging`
+- **Authentication**: JWT (JSON Web Tokens)
+- **Deployment**: Docker with `docker-compose`
 
 ## Setup Instructions
 
