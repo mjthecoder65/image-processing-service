@@ -81,3 +81,52 @@ This project is a backend service for image processing, similar to Cloudinary. I
 - **Transform Image**: `POST /api/v1/images/:id/transform`
 - **Retrieve Image**: `GET /api/v1/images/:id`
 - **List Images**: `GET /api/v1/images?page=1&limit=10`
+
+## API Usage with cURL
+
+```sh
+#!/bin/bash
+
+# Register
+curl -X POST http://localhost:8080/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{"email": "michael53161@gmail.com.com", "password": "coolhand"}'
+
+# Login
+curl -X POST http://localhost:8080/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "michael53161@gmail.com.com", "password": "coolhand"}'
+
+ACCESS_TOKEN="your_jwt_token_here"
+
+# Upload Image
+curl -X POST http://localhost:8080/api/v1/images/ \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -F "image=@/Users/michael/Desktop/sky.jpg"
+
+# Get Image
+curl -X GET http://localhost:8080/api/v1/images/a80b97f6-c411-4093-adfa-e84682341e62 \
+    -H "Authorization: Bearer $ACCESS_TOKEN"
+
+# Get All Images
+curl -X GET http://localhost:8080/api/v1/images/ \
+    -H "Authorization: Bearer $ACCESS_TOKEN"
+
+# Test Image Rotate
+curl -X POST http://localhost:8080/api/v1/images/a80b97f6-c411-4093-adfa-e84682341e62/transform \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"transformations": {"rotate": 90}}'
+
+# Test Grayscale
+curl -X POST http://localhost:8080/api/v1/images/a80b97f6-c411-4093-adfa-e84682341e62/transform \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"transformations": {"filters": {"grayscale": true}}}'
+
+# Test Sepia
+curl -X POST http://localhost:8080/api/v1/images/a80b97f6-c411-4093-adfa-e84682341e62/transform \
+  -H "Authorization: Bearer $ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"transformations": {"filters": {"sepia": true}}}'
+```
