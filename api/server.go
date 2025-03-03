@@ -5,6 +5,7 @@ import (
 	"github.com/jackc/pgx/v5"
 	"github.com/mjthecoder65/image-processing-service/config"
 	db "github.com/mjthecoder65/image-processing-service/db/sqlc"
+	"github.com/mjthecoder65/image-processing-service/internal/middleware"
 	"github.com/mjthecoder65/image-processing-service/pkg/token"
 )
 
@@ -49,6 +50,7 @@ func (server *Server) SetupRoutes() *gin.Engine {
 	}
 
 	images := router.Group("/api/v1/images")
+	images.Use(middleware.AuthMiddleware(server.maker))
 	{
 		images.POST("/", server.uploadImage)
 		images.GET("/:id", server.getImage)
