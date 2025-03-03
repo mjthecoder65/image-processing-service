@@ -6,14 +6,16 @@ import (
 	"github.com/mjthecoder65/image-processing-service/config"
 	db "github.com/mjthecoder65/image-processing-service/db/sqlc"
 	"github.com/mjthecoder65/image-processing-service/internal/middleware"
+	"github.com/mjthecoder65/image-processing-service/internal/storage"
 	"github.com/mjthecoder65/image-processing-service/pkg/token"
 )
 
 type Server struct {
-	router  *gin.Engine
-	config  *config.Config
-	maker   token.Maker
-	queries *db.Queries
+	router        *gin.Engine
+	config        *config.Config
+	maker         token.Maker
+	queries       *db.Queries
+	storageClient storage.FileStorageClient
 }
 
 func NewServer(config *config.Config, conn *pgx.Conn) (*Server, error) {
@@ -23,10 +25,19 @@ func NewServer(config *config.Config, conn *pgx.Conn) (*Server, error) {
 		return nil, err
 	}
 
+	storageClient, err := storage.NewS3StorageClient(
+		config.StorageKey, config.StorageSecret, config.StorageRegion, config.BucketName,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
 	server := &Server{
-		config:  config,
-		maker:   maker,
-		queries: db.New(conn),
+		config:        config,
+		maker:         maker,
+		queries:       db.New(conn),
+		storageClient: storageClient,
 	}
 
 	server.SetupRoutes()
