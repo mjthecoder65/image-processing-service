@@ -11,9 +11,17 @@ import (
 type Image struct {
 	ID         pgtype.UUID        `json:"id"`
 	Name       string             `json:"name"`
-	UserID     int64              `json:"user_id"`
+	UserID     pgtype.UUID        `json:"user_id"`
 	Url        string             `json:"url"`
 	UploadedAt pgtype.Timestamptz `json:"uploaded_at"`
+}
+
+type ImageTransformation struct {
+	ID             pgtype.UUID        `json:"id"`
+	ImageID        pgtype.UUID        `json:"image_id"`
+	Transformation []byte             `json:"transformation"`
+	Url            string             `json:"url"`
+	TransformedAt  pgtype.Timestamptz `json:"transformed_at"`
 }
 
 type User struct {

@@ -21,9 +21,9 @@ RETURNING
 `
 
 type CreateImageParams struct {
-	Name   string `json:"name"`
-	UserID int64  `json:"user_id"`
-	Url    string `json:"url"`
+	Name   string      `json:"name"`
+	UserID pgtype.UUID `json:"user_id"`
+	Url    string      `json:"url"`
 }
 
 func (q *Queries) CreateImage(ctx context.Context, arg CreateImageParams) (Image, error) {
@@ -75,9 +75,9 @@ LIMIT
 `
 
 type GetUserImagesParams struct {
-	UserID int64 `json:"user_id"`
-	Offset int32 `json:"offset"`
-	Limit  int32 `json:"limit"`
+	UserID pgtype.UUID `json:"user_id"`
+	Offset int32       `json:"offset"`
+	Limit  int32       `json:"limit"`
 }
 
 func (q *Queries) GetUserImages(ctx context.Context, arg GetUserImagesParams) ([]Image, error) {
