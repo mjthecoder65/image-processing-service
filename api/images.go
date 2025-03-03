@@ -96,19 +96,17 @@ func (server *Server) uploadImage(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, image)
 }
 
-type getImageRequest struct {
-	ID pgtype.UUID `uri:"id" binding:"required"`
-}
-
 func (server *Server) getImage(ctx *gin.Context) {
-	var req getImageRequest
+	imageID := ctx.Param("id")
 
-	if err := ctx.ShouldBindUri(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+	imageUUID, err := StringToUUID(imageID)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
 
-	image, err := server.queries.GetImage(context.Background(), req.ID)
+	image, err := server.queries.GetImage(context.Background(), imageUUID)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
