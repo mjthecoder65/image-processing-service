@@ -1,38 +1,83 @@
 # Image Processing Service
 
-A scalable backend service built with Go for uploading, transforming, and managing images, inspired by services like Cloudinary. Features include user authentication, image storage on AWS S3, and transformations such as resize, crop, rotate, grayscale, and sepia.
+This project is a backend service for image processing, similar to Cloudinary. It allows users to upload images, apply transformations, and retrieve images in different formats. The system includes user authentication, image management, and efficient retrieval mechanisms.
 
 ## Features
 
-- **User Authentication**: Register and log in with JWT-based authentication.
-- **Image Management**:
-  - Upload images via `POST /api/v1/images`.
-  - Retrieve images by ID or list all user images.
-- **Image Transformations**: Apply transformations (resize, crop, rotate, grayscale, sepia) via `POST /api/v1/images/:id/transform`.
-- **Storage**: Images stored in AWS S3 with database metadata in PostgreSQL.
-- **Database**: PostgreSQL with SQLC for type-safe queries.
+### User Authentication
+
+- **Sign-Up**: Users can create an account.
+- **Log-In**: Users can log in.
+- **JWT Authentication**: Secure endpoints using JWTs for authenticated access.
+
+### Image Management
+
+- **Upload Image**: Users can upload images.
+- **Transform Image**: Perform transformations such as resize, crop, rotate, watermark, etc.
+- **Retrieve Image**: Fetch saved images in different formats.
+- **List Images**: View all uploaded images with metadata.
+
+### Image Transformations
+
+- Resize
+- Crop
+- Rotate
+- Watermark
+- Flip
+- Mirror
+- Compress
+- Change format (JPEG, PNG, etc.)
+- Apply filters (grayscale, sepia, etc.)
 
 ## Tech Stack
 
-- **Language**: Go
-- **Framework**: Gin (HTTP server)
-- **Database**: PostgreSQL with SQLC
-- **Storage**: AWS S3
-- **Image Processing**: `github.com/disintegration/imaging`
-- **Authentication**: JWT (JSON Web Tokens)
-- **Deployment**: Docker with `docker-compose`
+- **Go**: Backend implementation
+- **Gin**: Web framework
+- **PostgreSQL**: Database
+- **SQLC**: Database query management
+- **AWS S3**: Cloud storage for images
+- **Docker & docker-compose**: Containerization
+- **Imaging Library**: Image processing
 
-## Prerequisites
+## Setup Instructions
 
-- Go 1.23+
-- PostgreSQL 15+
-- AWS S3 bucket and credentials
-- Docker (optional, for containerized deployment)
+1. Clone the repository:
 
-## Setup
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/image-processing-service.git
+   ```sh
+   git clone https://github.com/your-repo/image-processing-service.git
    cd image-processing-service
    ```
+
+2. Install dependencies:
+
+   ```sh
+   go mod tidy
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file and configure database, AWS credentials, and JWT settings.
+
+4. Run database migrations:
+
+   ```sh
+   make migrate-up
+   ```
+
+5. Start the service:
+   ```sh
+   docker-compose up --build
+   ```
+
+## API Endpoints
+
+### Authentication
+
+- **Register**: `POST /register`
+- **Login**: `POST /login`
+
+### Image Management
+
+- **Upload Image**: `POST /images`
+- **Transform Image**: `POST /images/:id/transform`
+- **Retrieve Image**: `GET /images/:id`
+- **List Images**: `GET /images?page=1&limit=10`
