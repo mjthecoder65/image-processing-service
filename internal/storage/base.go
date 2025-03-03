@@ -1,7 +1,8 @@
 package storage
 
-import "mime/multipart"
+import "io"
 
 type FileStorageClient interface {
-	UploadFile(file multipart.File, filename string) (string, error)
+	UploadFile(file io.Reader, filename string) (string, error)
+	GetImage(filename string) ([]byte, error)
 }
