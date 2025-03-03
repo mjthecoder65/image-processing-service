@@ -55,7 +55,21 @@ This project is a backend service for image processing, similar to Cloudinary. I
    ```
 
 3. Set up environment variables:
-   Create a `.env` file and configure database, AWS credentials, and JWT settings.
+   Create a `.env` file at the root directory of the project, and add the following config settings.
+
+   ```env
+    SERVER_PORT=:8080
+    JWT_SECRET=<your-secret-key>
+    JWT_EXPIRATION_MINUTES=60
+    STORAGE_REGION=ap-northeast-2
+    STORAGE_KEY=<your-storage-key>
+    STORAGE_SECRET=<your-storage-secret>
+    BUCKET_NAME=image-processing-app-ngowi
+    DATABASE_URL=postgres://admin:<your-db-password>@localhost:5030/main
+    POSTGRES_DB=main
+    POSTGRES_USER=admin
+    POSTGRES_PASSWORD=<your-db-password>
+   ```
 
 4. Run database migrations:
 
