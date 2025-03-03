@@ -79,7 +79,7 @@ This project is a backend service for image processing, similar to Cloudinary. I
 
 5. Start the service:
    ```sh
-   docker-compose up --build
+    go run cmd/main.go
    ```
 
 ## API Endpoints
