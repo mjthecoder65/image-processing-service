@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -86,7 +87,9 @@ func (server *Server) login(ctx *gin.Context) {
 
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
+			err := fmt.Errorf("user with email %s was not found", req.Email)
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
+			return
 		}
 
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
@@ -100,7 +103,7 @@ func (server *Server) login(ctx *gin.Context) {
 		return
 	}
 
-	token, err := server.maker.CreateToken(user.ID, 60*time.Minute) // TODO: Move token expiration duration to the configuration.
+	token, err := server.maker.CreateToken(user.ID, time.Duration(server.config.JWTExpirationMinutes)*time.Minute)
 
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
