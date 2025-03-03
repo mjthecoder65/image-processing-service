@@ -72,12 +72,12 @@ This project is a backend service for image processing, similar to Cloudinary. I
 
 ### Authentication
 
-- **Register**: `POST /register`
-- **Login**: `POST /login`
+- **Register**: `POST /api/v1/auth/register`
+- **Login**: `POST /api/v1/auth/login`
 
 ### Image Management
 
-- **Upload Image**: `POST /images`
-- **Transform Image**: `POST /images/:id/transform`
-- **Retrieve Image**: `GET /images/:id`
-- **List Images**: `GET /images?page=1&limit=10`
+- **Upload Image**: `POST /api/v1/images`
+- **Transform Image**: `POST /api/v1/images/:id/transform`
+- **Retrieve Image**: `GET /api/v1/images/:id`
+- **List Images**: `GET /api/v1/images?page=1&limit=10`
