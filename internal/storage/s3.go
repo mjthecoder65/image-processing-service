@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 	"fmt"
+	"io"
 	"log"
-	"mime/multipart"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -38,7 +38,7 @@ func NewS3StorageClient(accessKey string, secretKey string, region string, bucke
 	}, nil
 }
 
-func (s *S3StorageClient) UploadFile(file multipart.File, filename string) (string, error) {
+func (s *S3StorageClient) UploadFile(file io.Reader, filename string) (string, error) {
 	_, err := s.Client.PutObject(context.TODO(), &s3.PutObjectInput{
 		Bucket: aws.String(s.BucketName),
 		Key:    aws.String(filename),
@@ -53,4 +53,25 @@ func (s *S3StorageClient) UploadFile(file multipart.File, filename string) (stri
 	fileUrl := fmt.Sprintf("https://%s.s3.%s.amazonaws.com/%s", s.BucketName, s.Region, filename)
 
 	return fileUrl, nil
+}
+
+func (s *S3StorageClient) GetImage(filename string) ([]byte, error) {
+	result, err := s.Client.GetObject(context.Background(), &s3.GetObjectInput{
+		Bucket: aws.String(s.BucketName),
+		Key:    aws.String(filename),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer result.Body.Close()
+
+	data, err := io.ReadAll(result.Body)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
 }
