@@ -1,6 +1,7 @@
 package token
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -38,5 +39,19 @@ func (maker *JWTMaker) CreateToken(userID pgtype.UUID, duration time.Duration) (
 }
 
 func (maker *JWTMaker) VerifyToken(token string) (*Claims, error) {
-	return nil, nil
+	tkn, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(maker.secretKey), nil
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	claims, ok := tkn.Claims.(*Claims)
+
+	if !ok {
+		return nil, fmt.Errorf("invalid token claims")
+	}
+
+	return claims, nil
 }
